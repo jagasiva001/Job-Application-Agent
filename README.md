@@ -121,4 +121,4 @@ verify it in your environment.
 ## Not built (yet)
 Pre-fill of cover letters and custom questions, other application sites, salary matching against job salary text,
 multi-user accounts, and AI-generated writing stored directly in application packets. The optional AI review is advisory
-and returns a separate draft for you to review.
+and returns a separate draft for you to review and we will update and to run  this without paying the money we need to give the url after running the code to codex of chat gpt or clouade AI or any open AI.						
