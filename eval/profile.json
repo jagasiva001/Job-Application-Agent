@@ -1,0 +1,3 @@
+{"skills": "python, fastapi, aws, docker, linux, jenkins", "roles": "devops engineer, ai engineer, cloud engineer",
+ "locations": "bengaluru, remote", "remote": 1, "hybrid": 1, "onsite": 1, "experience": "Fresher", "sponsorship": "No",
+ "resume_text": "Built RAG pipelines with Python and FastAPI. Deployed Docker containers with Jenkins CI/CD on AWS. Administered Linux servers."}

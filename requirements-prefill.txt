@@ -1,0 +1,3 @@
+# Optional: browser pre-fill for Greenhouse and Lever forms (run the app on your own computer)
+playwright>=1.45
+# then, once:  python -m playwright install chromium

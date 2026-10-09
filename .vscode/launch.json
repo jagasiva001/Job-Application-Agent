@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Job Engine (uvicorn)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": ["main:app", "--port", "8000"],
+      "justMyCode": true
+    },
+    {
+      "name": "Pre-fill a job (replace the id)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "jobengine.prefill",
+      "args": ["--job-id", "1"],
+      "justMyCode": true
+    }
+  ]
+}

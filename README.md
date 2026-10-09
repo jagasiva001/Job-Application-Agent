@@ -122,5 +122,3 @@ verify it in your environment.
 Pre-fill of cover letters and custom questions, other application sites, salary matching against job salary text,
 multi-user accounts, and AI-generated writing stored directly in application packets. The optional AI review is advisory
 and returns a separate draft for you to review.
-#   J o b - A p p l i c a t i o n - A g e n t  
- 
