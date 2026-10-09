@@ -12,6 +12,7 @@ h1{margin:0 0 6px}h2{margin:0 0 10px}.muted{color:#667085;font-size:14px}.grid{d
 label{font-weight:600;font-size:14px}input,textarea,select{width:100%;box-sizing:border-box;padding:10px;border:1px solid #ccd3df;border-radius:8px;margin-top:5px;font:inherit}
 textarea{min-height:100px}.full{grid-column:1/-1}.checks{display:flex;gap:18px;flex-wrap:wrap;margin-top:6px}.checks label{font-weight:500}.checks input{width:auto}
 button{background:#172033;color:#fff;border:0;border-radius:8px;padding:9px 15px;cursor:pointer;margin:2px}.secondary{background:#eef2f7;color:#172033}
+.danger{background:#a12622}.privacy{border-top:1px solid #edf0f5;padding-top:14px;margin-top:8px}
 .pill{display:inline-block;padding:3px 9px;border-radius:99px;background:#eef2ff;margin:2px;font-size:12px}.pill.warn{background:#fff1e6;color:#9a3412}.pill.gap{background:#f1f5f9}
 .row{display:flex;justify-content:space-between;gap:15px;align-items:flex-start;border-top:1px solid #edf0f5;padding:13px 0}.score{font-size:20px;font-weight:700}
 .status{position:sticky;top:0;padding:10px 14px;border-radius:8px;margin:10px 0;display:none}.status.ok{background:#e7f6ec;display:block}.status.bad{background:#fde8e8;display:block}
@@ -47,6 +48,7 @@ pre{white-space:pre-wrap;background:#f8fafc;border:1px solid #e4e8f0;border-radi
 <label class="full">Or upload a resume (.txt, .pdf, .docx)<input type="file" name="resume" accept=".txt,.pdf,.docx"></label>
 <div class="full"><button type="submit">Save profile and rescore jobs</button></div>
 </form>
+<div class="card privacy"><h2>Profile privacy</h2><p class="muted">Your profile and resume are stored locally in the app database and uploads folder. They are not encrypted. Deleting profile data also clears generated application packets and profile-based match scores, while keeping your job list and application status history.</p><button class="danger" onclick="clearProfile()">Delete profile data</button></div>
 
 <div class="card"><h2>2. Add jobs</h2>
 <div class="inline"><select id="kind"><option>greenhouse</option><option>lever</option></select>
@@ -83,6 +85,11 @@ async function saveProfile(event){
     say('Profile saved. Refreshing matches...',false);
     window.location.reload();
   }catch(error){say('Profile save failed: '+error.message,true);button.disabled=false}
+}
+async function clearProfile(){
+  if(!window.confirm('Delete your saved profile, resume upload, generated application packets, and profile-based match scores? Job listings and application status history will remain.'))return;
+  try{await post('/profile/delete');say('Profile data and generated packets deleted. Job and application history kept.',false);window.location.reload()}
+  catch(error){say('Could not delete profile data: '+error.message,true)}
 }
 const addJobs=()=>act(async()=>{say('Added: '+JSON.stringify(await post('/jobs',JSON.parse($('jobs').value))))});
 const fetchBoard=()=>act(async()=>{say('Fetched: '+JSON.stringify(await post('/connectors/fetch',{kind:$('kind').value,token:$('token').value})))});

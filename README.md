@@ -21,7 +21,7 @@ fetch a Greenhouse/Lever board) > approve matches > **Prepare approved** > open 
 ## Android app (new in 4.2)
 Open the `android/` folder in Android Studio and build/run the `app` configuration. Start this Python backend first.
 For a physical phone, run `uvicorn main:app --host 0.0.0.0 --port 8000` from the backend folder and allow it through
-your computer's firewall. In the Android app, set the backend URL; Android Emulator uses `http://10.0.2.2:8000`,
+your computer's firewall. Before exposing the backend on your network, set a strong `APP_PASSWORD` in `.env` and use HTTPS; Basic Auth over plain HTTP can expose credentials on the network. In the Android app, set the backend URL; Android Emulator uses `http://10.0.2.2:8000`,
 while a physical phone needs the computer's LAN URL. The app can list and score added jobs, approve/reject, prepare packets, track application
 statuses, and request AI reviews. Configure the profile in the web app before adding jobs. The Android app keeps the
 server URL in app preferences; the Basic Auth password is held in memory only. Use HTTPS on shared networks.
@@ -109,7 +109,9 @@ Optional: `pip install sentence-transformers` and set `MATCH_BACKEND=embeddings`
 
 ## Security
 Fine on localhost. Before running anywhere reachable by others (Docker, AWS), set `APP_PASSWORD` and put it behind HTTPS.
-The profile and resume are stored unencrypted in `job_engine.db`.
+The profile and resume are stored unencrypted in `job_engine.db` and `uploads/`. Use **Delete profile data** in the web app
+to erase the saved profile, uploaded resume, generated application packets, and profile-based match evidence. Job listings
+and application status history are retained. Deleting local files does not guarantee forensic erasure from storage media.
 
 ## Verification status
 The v4.1 baseline was documented as having 44 passing unit tests, with API-stack, live employer pages, visible browser

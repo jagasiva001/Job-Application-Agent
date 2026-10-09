@@ -116,6 +116,11 @@ async def save_profile(
     return RedirectResponse("/", status_code=303)
 
 
+@app.post("/profile/delete")
+def delete_profile(conn=Depends(get_conn)):
+    return service.delete_profile(conn)
+
+
 @app.get("/api/profile")
 def api_profile(conn=Depends(get_conn)):
     p = service.get_profile(conn)

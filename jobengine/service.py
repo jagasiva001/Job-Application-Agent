@@ -4,6 +4,7 @@ import io
 import importlib.util
 import json
 import sqlite3
+from pathlib import Path
 from datetime import date
 
 from . import config
@@ -60,6 +61,25 @@ def save_profile(conn, d: dict) -> dict:
         conn.execute("UPDATE profile SET resume_file=? WHERE id=1", (d["resume_file"],))
     rescored = rescore_open(conn)  # a changed profile re-evaluates every job that is still undecided
     return {"saved": True, "rescored": rescored}
+
+
+def delete_profile(conn) -> dict:
+    """Erase profile/resume data and cached personalized material, retaining job history."""
+    profile = get_profile(conn)
+    resume_path = profile.get("resume_file")
+    if resume_path:
+        upload_dir = (Path(config.DB_PATH).resolve().parent / "uploads").resolve()
+        candidate = Path(resume_path).resolve()
+        # Never unlink a path outside this app's fixed resume upload directory.
+        if candidate.parent == upload_dir and candidate.name.startswith("resume."):
+            candidate.unlink(missing_ok=True)
+
+    conn.execute("DELETE FROM profile WHERE id=1")
+    conn.execute("UPDATE applications SET packet=NULL")
+    conn.execute("UPDATE jobs SET score=0, reasons='[]', gaps='[]'")
+    conn.execute("UPDATE jobs SET status='NEW' "
+                 "WHERE status IN ('NEW','RESCORE','LOW_MATCH','AWAITING_APPROVAL','APPROVED')")
+    return {"deleted": True}
 
 
 # ---------- jobs ----------
