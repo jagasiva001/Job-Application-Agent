@@ -7,14 +7,29 @@ A local FastAPI app that scores jobs against your profile and resume, explains e
 application packet (resume lines + cover-letter draft) and tracks the application. **You submit every
 application yourself.** Nothing is auto-submitted, which keeps you inside job sites' terms.
 
-## Run (Windows, macOS, Linux)
+## Run on Windows
+
+For the easiest setup, extract the project, open the folder containing `main.py`, and double-click `start_windows.bat`.
+On first run it creates a virtual environment, installs the app requirements, copies `.env.example` to `.env` if needed,
+and starts the backend on your computer. Keep the terminal window open and visit http://127.0.0.1:8000. Press Ctrl+C in
+that window to stop the server. Install Python 3.11 or newer first if Windows reports that Python was not found.
+
+If you prefer PowerShell, run these commands from the folder containing `main.py`:
 ```bash
 python -m venv .venv
-.venv\Scripts\activate          # macOS/Linux: source .venv/bin/activate
-pip install -r requirements.txt
-copy .env.example .env          # macOS/Linux: cp .env.example .env
-uvicorn main:app --reload
+Copy-Item .env.example .env     # only the first time
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m uvicorn main:app --reload
 ```
+
+## Run on macOS or Linux
+```bash
+python3 -m venv .venv
+cp .env.example .env            # only the first time
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python -m uvicorn main:app --reload
+```
+
 Open http://127.0.0.1:8000. Flow: save profile (paste or upload a .txt/.pdf/.docx resume) > add jobs (paste JSON or
 fetch a Greenhouse/Lever board) > approve matches > **Prepare approved** > open the job (or **Pre-fill form**), apply, mark it applied.
 
